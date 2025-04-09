@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Books</title>
+</head>
+<body>
+<h1>Available Books</h1>
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td>
+            <form th:action="@{/borrow}" method="post">
+                <input type="hidden" name="bookId" th:value="${book.id}" />
+                <!-- Assuming userId = 1 for demo -->
+                <input type="hidden" name="userId" value="1" />
+                <button type="submit">Borrow</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
