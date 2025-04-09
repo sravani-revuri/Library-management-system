@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Librarians</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">List of Librarians</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Librarian ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="librarian : ${librarians}">
+                <td th:text="${librarian.librarianID}"></td>
+                <td th:text="${librarian.name}"></td>
+                <td th:text="${librarian.email}"></td>
+                <td th:text="${librarian.phone}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
