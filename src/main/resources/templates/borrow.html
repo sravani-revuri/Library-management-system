@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Borrow a Book</title>
@@ -7,34 +7,34 @@
 </head>
 <body class="bg-light">
 
-    <div class="container mt-5">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">📚 Borrow a Book</h4>
-            </div>
-            <div class="card-body">
-                <form method="post" action="/borrow">
-                    <div class="mb-3">
-                        <label for="userId" class="form-label">👤 User ID</label>
-                        <input type="number" class="form-control" id="userId" name="userId" required placeholder="Enter your user ID">
-                    </div>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">📚 Borrow a Book</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" th:action="@{/borrow}">
+                <div class="mb-3">
+                    <label for="userId" class="form-label">👤 User ID</label>
+                    <input type="number" class="form-control" id="userId" name="userId" required placeholder="Enter your user ID">
+                </div>
 
-                    <div class="mb-3">
-                        <label for="bookId" class="form-label">📖 Select Book</label>
-                        <select class="form-select" id="bookId" name="bookId" required>
-                            <option value="" disabled selected>-- Choose a book --</option>
-                            <option value="1">Effective Java</option>
-                            <option value="2">Clean Code</option>
-                            <option value="3">Spring in Action</option>
-                            <!-- Add more options dynamically -->
-                        </select>
-                    </div>
+                <div class="mb-3">
+                    <label for="bookId" class="form-label">📖 Select Book</label>
+                    <select class="form-select" id="bookId" name="bookId" required>
+                        <option value="" disabled selected>-- Choose a book --</option>
+                        <option th:each="book : ${books}"
+                                th:value="${book.id}"
+                                th:text="${book.title + ' by ' + (book.author != null ? book.author : 'Unknown')}">
+                        </option>
+                    </select>
+                </div>
 
-                    <button type="submit" class="btn btn-success">Borrow Book</button>
-                </form>
-            </div>
+                <button type="submit" class="btn btn-success">Borrow Book</button>
+            </form>
         </div>
     </div>
+</div>
 
 </body>
 </html>
