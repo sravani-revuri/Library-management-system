@@ -1,52 +1,74 @@
 package com.example.LMS.controller;
 
-import java.util.List;
-
+import com.example.LMS.model.Book;
+import com.example.LMS.repository.BookRepository;
+import com.example.LMS.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.LMS.model.Book;
-import com.example.LMS.service.BookService;
-import com.example.LMS.service.BorrowService;
+import com.example.LMS.util.BookFactory;
+
+
+import java.util.List;
 
 @Controller
 public class BookController {
 
     @Autowired
-    private BookService bookService;
+    private BookRepository bookRepository;
 
     @Autowired
     private BorrowService borrowService;
 
     @GetMapping("/")
     public String home() {
-        return "index"; // loads index.html
+        return "index";
     }
 
     @GetMapping("/books")
     public String viewBooks(Model model) {
-        List<Book> books = bookService.getAllBooks();
+        List<Book> books = bookRepository.findAll();
         model.addAttribute("books", books);
-        return "books"; // loads books.html
+        return "books";
     }
 
-    // ✅ Added GET mapping to show the borrow form
     @GetMapping("/borrow")
     public String showBorrowForm(Model model) {
-        List<Book> books = bookService.getAllBooks(); // or available books only
+        List<Book> books = bookRepository.findAll();
         model.addAttribute("books", books);
-        return "borrow"; // make sure borrow.html exists in templates
+        return "borrow";
     }
 
     @PostMapping("/borrow")
-public String borrowBook(@RequestParam Long userId, @RequestParam Long bookId, Model model) {
-    borrowService.borrowBook(userId, bookId);
-    model.addAttribute("message", "Book borrowed successfully!");
-    return "borrow-success";
+    public String borrowBook(@RequestParam Long userId,
+                             @RequestParam Long bookId,
+                             Model model) {
+        borrowService.borrowBook(userId, bookId);
+        model.addAttribute("message", "Book borrowed successfully!");
+        return "borrow-success";
+    }
+
+    // ✅ Add Book Form (GET)
+    @GetMapping("/add-book")
+    public String showAddBookForm() {
+        return "add-book";
+    }
+
+    // ✅ Handle Add Book Submission (POST)
+    @PostMapping("/add-book")
+public String addBook(@RequestParam String title,
+                      @RequestParam(required = false) String author,
+                      Model model) {
+
+    Book newBook = BookFactory.createNewBook(title, author); // ✅ Using singleton
+    bookRepository.save(newBook);
+
+    model.addAttribute("title", title);
+    return "book-added";
 }
+
+
 
 }
