@@ -1,6 +1,7 @@
 package com.example.LMS.service;
 
 import java.time.LocalDate;
+import java.util.List; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,9 @@ public class BorrowService {
         borrow.setReturnDate(LocalDate.now().plusDays(14)); // default 2 weeks
 
         borrowRepository.save(borrow);
+    }
+
+    public List<Borrow> getAllBorrowedBooks() {
+        return borrowRepository.findAll();
     }
 }
