@@ -30,16 +30,19 @@ public class ReturnBookController {
         return "return-book";
     }
 
+    // Process the return book action
     @PostMapping("/return-book")
     public String returnBook(@RequestParam Long borrowId, Model model) {
+        // Return the book by borrowId
         ReturnBook returnedBook = returnBookService.returnBook(borrowId);
 
         if (returnedBook != null) {
             model.addAttribute("message", "Book returned successfully!");
-            return "return-success";  // ✅ success view with redirect
         } else {
             model.addAttribute("message", "❌ Error: Borrow ID not found.");
-            return "return-book";
         }
+
+        // Redirect to the librarian dashboard, whether the operation is successful or not
+        return "redirect:/librarian/dashboard";  // Redirecting to the dashboard
     }
 }
