@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Library Management System</title>
@@ -41,16 +41,44 @@
     .links a:hover {
       background-color: #388E3C;
     }
+
+    .auth-links {
+      margin-top: 30px;
+    }
+
+    .auth-links a {
+      background-color: #2196F3;
+    }
+
+    .auth-links a:hover {
+      background-color: #1976D2;
+    }
+
+    .flash-message {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>📚 Welcome to the Library Management System</h1>
+
+    <!-- ✅ Flash message area -->
+    <div th:if="${message}" class="flash-message">
+      <span th:text="${message}"></span>
+    </div>
+    
     <div class="links">
       <a href="/books">View Books</a>
       <a href="/borrow">Borrow a Book</a>
-      <a href="/return-book">Return a Book</a> <!-- 👈 New link added -->
-      <a href="/add-book">Add a Book</a> <!-- ✅ New button -->
+      <a href="/return-book">Return a Book</a>
+      <a href="/add-book">Add a Book</a>
     </div>    
   </div>
 </body>

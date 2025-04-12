@@ -1,6 +1,10 @@
 package com.example.LMS.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "librarians")
@@ -12,7 +16,20 @@ public class Librarian {
 
     private String name;
     private String email;
+    private String password;
     private String phone;
+
+    // Default constructor (required by JPA)
+    public Librarian() {
+    }
+
+    // Parameterized constructor (useful for registration or testing)
+    public Librarian(String name, String email, String password, String phone) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+    }
 
     // Getters and setters
 
@@ -40,6 +57,14 @@ public class Librarian {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -54,6 +79,7 @@ public class Librarian {
                 "librarianID=" + librarianID +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
     }

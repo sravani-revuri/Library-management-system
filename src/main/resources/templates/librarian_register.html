@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Librarian Register</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #007bff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px;
+            width: 100%;
+            background: #007bff;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .bottom-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .bottom-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .bottom-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error, .message {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .message {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Librarian Register</h2>
+        <form th:action="@{/librarian/register}" method="post">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="text" name="phone" placeholder="Phone" required>
+            <button type="submit">Register</button>
+        </form>
+
+        <p th:if="${error}" class="error" th:text="${error}"></p>
+        <p th:if="${message}" class="message" th:text="${message}"></p>
+
+        <div class="bottom-link">
+            <p>Already have an account? <a th:href="@{/librarian/login}">Login here</a></p>
+        </div>
+    </div>
+</body>
+</html>
