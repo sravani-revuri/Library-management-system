@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.LMS.model.Book;
 import com.example.LMS.repository.BookRepository;
 import com.example.LMS.service.BorrowService;
-import com.example.LMS.util.BookFactory;
 
 @Controller
 public class BookController {
@@ -23,6 +22,7 @@ public class BookController {
     @Autowired
     private BorrowService borrowService;
 
+    // View all books
     @GetMapping("/books")
     public String viewBooks(Model model) {
         List<Book> books = bookRepository.findAll();
@@ -30,6 +30,7 @@ public class BookController {
         return "books";
     }
 
+    // Borrow form
     @GetMapping("/borrow")
     public String showBorrowForm(Model model) {
         List<Book> books = bookRepository.findAll();
@@ -37,35 +38,18 @@ public class BookController {
         return "borrow";
     }
 
-
     @PostMapping("/borrow")
     public String borrowBook(@RequestParam Long userId,
                              @RequestParam Long bookId,
                              Model model) {
         borrowService.borrowBook(userId, bookId);
         model.addAttribute("message", "Book borrowed successfully!");
-        return "borrow-success";  // ✅ success view with redirect
+        return "borrow-success"; // ✅ success view with redirect
     }
 
-    @GetMapping("/add-book")
-    public String showAddBookForm() {
-        return "add-book";
-    }
-
-    @PostMapping("/add-book")
-    public String addBook(@RequestParam String title,
-                          @RequestParam(required = false) String author,
-                          Model model) {
-
-        Book newBook = BookFactory.createNewBook(title, author);
-        bookRepository.save(newBook);
-
-        model.addAttribute("message", "Book added successfully!");
-        return "add-success"; // ✅ success view with redirect
-    }
     @GetMapping("/index")
-public String showHomePage(Model model) {
-    model.addAttribute("message", "Welcome back!");
-    return "index";
-}
+    public String showHomePage(Model model) {
+        model.addAttribute("message", "Welcome back!");
+        return "index";
+    }
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Librarian Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .dashboard-container {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .welcome-message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .dashboard-actions {
+            margin-top: 30px;
+        }
+        .dashboard-actions a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-right: 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+        .dashboard-actions a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="welcome-message">
+        Welcome, <span th:text="${librarian.name}">Librarian</span>!
+    </div>
+
+    <div class="dashboard-actions">
+        <a href="/librarian/add-book">➕ Add New Book</a>
+        <a href="/books">📚 View All Books</a>
+        <a href="/logout">🚪 Logout</a>
+    </div>
+</div>
+</body>
+</html>

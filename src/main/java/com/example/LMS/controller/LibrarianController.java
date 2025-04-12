@@ -2,13 +2,14 @@ package com.example.LMS.controller;
 
 import java.util.List;
 
+import com.example.LMS.model.Book;
+import com.example.LMS.repository.BookRepository;
+import com.example.LMS.util.BookFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.LMS.model.Librarian;
 import com.example.LMS.service.LibrarianService;
@@ -16,25 +17,28 @@ import com.example.LMS.service.LibrarianService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/librarian") // Adds a common prefix for all routes
+@RequestMapping("/librarian") // All routes prefixed with /librarian
 public class LibrarianController {
 
     @Autowired
     private LibrarianService librarianService;
 
+    @Autowired
+    private BookRepository bookRepository;
+
     // Show login form
     @GetMapping("/login")
     public String showLoginForm() {
-        return "librarian_login"; // src/main/resources/templates/librarian_login.html
+        return "librarian_login";
     }
 
     // Show registration form
     @GetMapping("/register")
     public String showRegisterForm() {
-        return "librarian_register"; // src/main/resources/templates/librarian_register.html
+        return "librarian_register";
     }
 
-    // Process registration form
+    // Process registration
     @PostMapping("/register")
     public String registerLibrarian(@RequestParam String name,
                                     @RequestParam String email,
@@ -42,19 +46,17 @@ public class LibrarianController {
                                     @RequestParam String phone,
                                     Model model) {
 
-        // Check if email already registered
         if (librarianService.librarianExists(email)) {
             model.addAttribute("error", "Email already exists!");
             return "librarian_register";
         }
 
-        // Register librarian
         librarianService.registerLibrarian(name, email, password, phone);
         model.addAttribute("message", "Librarian registered successfully. Please login.");
         return "librarian_login";
     }
 
-    // Process login form
+    // Process login
     @PostMapping("/login")
     public String loginLibrarian(@RequestParam String email,
                                  @RequestParam String password,
@@ -69,25 +71,45 @@ public class LibrarianController {
         }
 
         session.setAttribute("loggedInLibrarian", librarian);
-        return "redirect:/librarian/dashboard";
+        return "redirect:/librarian/dashboard"; // Make sure this goes to librarian's dashboard
     }
 
-    // Librarian dashboard page
+    // Dashboard
     @GetMapping("/dashboard")
     public String librarianDashboard(Model model, HttpSession session) {
         Librarian librarian = (Librarian) session.getAttribute("loggedInLibrarian");
         if (librarian == null) {
-            return "redirect:/librarian/login";
+            return "redirect:/librarian/login"; // Always redirect to librarian login if not logged in
         }
         model.addAttribute("librarian", librarian);
-        return "librarian_dashboard"; // Create this HTML page
+        return "librarian_dashboard";
     }
 
-    // Optional: List of all librarians (admin use)
-    @GetMapping("/all")
-    public String getAllLibrarians(Model model) {
-        List<Librarian> librarians = librarianService.getAllLibrarians();
-        model.addAttribute("librarians", librarians);
-        return "librarians"; // src/main/resources/templates/librarians.html
+    // Show add book form
+    @GetMapping("/add-book")
+    public String showAddBookForm(HttpSession session) {
+        if (session.getAttribute("loggedInLibrarian") == null) {
+            return "redirect:/librarian/login"; // Ensure librarian is logged in to access this page
+        }
+        return "add-book";
+    }
+
+    // Process add book
+    @PostMapping("/add-book")
+    public String addBook(@RequestParam String title,
+                          @RequestParam(required = false) String author,
+                          Model model,
+                          HttpSession session) {
+
+        if (session.getAttribute("loggedInLibrarian") == null) {
+            return "redirect:/librarian/login"; // Redirect to login if librarian is not logged in
+        }
+
+        Book newBook = BookFactory.createNewBook(title, author); // Singleton pattern
+        bookRepository.save(newBook);
+
+        model.addAttribute("message", "Book added successfully!");
+        return "redirect:/librarian/dashboard"; // Redirect to librarian dashboard
     }
 }
+
