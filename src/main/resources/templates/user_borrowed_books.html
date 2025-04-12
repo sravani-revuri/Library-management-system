@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Books</title>
+    <title>My Borrowed Books</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -10,7 +10,7 @@
             padding: 20px;
         }
         
-        h1 {
+        h2 {
             color: #333;
             text-align: center;
         }
@@ -48,7 +48,6 @@
             cursor: pointer;
             text-align: center;
             font-size: 16px;
-            border-radius: 5px;
         }
 
         button:hover {
@@ -69,38 +68,27 @@
         .back-btn:hover {
             background-color: #0056b3;
         }
-
-        .top-controls {
-            display: flex;
-            justify-content: flex-end;
-        }
     </style>
 </head>
 <body>
+    <h2>My Borrowed Books</h2>
 
-<h1>Available Books</h1>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Borrow Date</th>
+            <th>Return Date</th>
+        </tr>
+        <tr th:each="borrow : ${borrows}">
+            <td th:text="${borrow.book.title}"></td>
+            <td th:text="${borrow.book.author}"></td>
+            <td th:text="${borrow.borrowDate}"></td>
+            <td th:text="${borrow.returnDate}"></td>
+        </tr>
+    </table>
 
-<div class="top-controls">
-    <a th:href="@{/user/index}" class="back-btn">Back to Home</a>
-</div>
-
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Action</th>
-    </tr>
-    <tr th:each="book : ${books}">
-        <td th:text="${book.title}"></td>
-        <td th:text="${book.author}"></td>
-        <td>
-            <form th:action="@{/borrow}" method="post">
-                <input type="hidden" name="bookId" th:value="${book.id}" />
-                <button type="submit">Borrow</button>
-            </form>
-        </td>
-    </tr>
-</table>
-
+    <!-- Button to go back to the home page -->
+    <a href="/user/index" class="back-btn">Back to Home</a>
 </body>
 </html>

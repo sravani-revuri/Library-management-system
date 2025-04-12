@@ -41,4 +41,13 @@ public class BorrowService {
     public List<Borrow> getAllBorrowedBooks() {
         return borrowRepository.findAll();
     }
+    public List<Borrow> getBorrowsByUserId(Long userId) {
+        return borrowRepository.findByUserId(userId);
+    }
+    
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
+    }
+    
+    
 }

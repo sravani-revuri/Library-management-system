@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.LMS.service.UserService;
+import java.util.Optional;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -37,15 +38,17 @@ public class AuthController {
                               @RequestParam String password,
                               HttpSession session,
                               Model model) {
-
-        if (userService.loginUser(email, password)) {
-            session.setAttribute("loggedInUser", email);
+    
+        Optional<Long> userIdOptional = userService.loginUser(email, password);
+        if (userIdOptional.isPresent()) {
+            session.setAttribute("loggedInUserId", userIdOptional.get()); // Store userId in session
             return "redirect:/user/index";
         } else {
             model.addAttribute("error", "Invalid email or password.");
             return "login";
         }
     }
+    
 
     // Show user registration page
     @GetMapping("/register")

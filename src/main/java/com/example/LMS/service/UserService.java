@@ -24,10 +24,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public boolean loginUser(String email, String password) {
+    public Optional<Long> loginUser(String email, String password) {
         Optional<User> userOptional = userRepository.findByEmail(email);
-        return userOptional.isPresent() && userOptional.get().getPassword().equals(password);
+        if (userOptional.isPresent() && userOptional.get().getPassword().equals(password)) {
+            return Optional.of(userOptional.get().getId()); // Return userId if login is successful
+        }
+        return Optional.empty(); // Return an empty Optional if the credentials are incorrect
     }
+    
 
     public boolean userExists(String email) {
         return userRepository.findByEmail(email).isPresent();
