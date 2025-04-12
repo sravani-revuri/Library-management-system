@@ -111,5 +111,12 @@ public class LibrarianController {
         model.addAttribute("message", "Book added successfully!");
         return "redirect:/librarian/dashboard"; // Redirect to librarian dashboard
     }
+    // Logout librarian
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Clear all session attributes
+        return "redirect:/librarian/login"; // Redirect to librarian login page
+    }
+
 }
 
