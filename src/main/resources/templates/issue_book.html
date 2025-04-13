@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Issue Book</title> <!-- Updated the title to "Issue Book" -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body style="background-color: #f8f9fa;">
+
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg" style="width: 100%;">
+        <div class="card-header bg-primary text-white" style="font-size: 1.5rem;">
+            <strong>📖 Issue a Book</strong>
+        </div>
+        <div class="card-body">
+            <form method="post" action="/librarian/issue-book">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> User ID</label>
+                    <input type="number" name="userId" class="form-control" placeholder="Enter your user ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-book"></i> Select Book</label>
+                    <select name="bookTitle" class="form-control" required>
+                        <option disabled selected value="">-- Choose a book --</option>
+                        <th:block th:each="book : ${books}">
+                            <option th:value="${book.title}" th:text="${book.title}">Book Title</option>
+                        </th:block>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success">Issue Book</button>
+            </form>
+
+            <div class="mt-3 text-success" th:if="${message}" th:text="${message}"></div>
+            <div class="mt-3 text-danger" th:if="${error}" th:text="${error}"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
