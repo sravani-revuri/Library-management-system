@@ -1,18 +1,15 @@
 package com.example.LMS.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.LMS.model.Borrow;
 import com.example.LMS.model.ReturnBook;
 import com.example.LMS.service.BorrowService;
 import com.example.LMS.service.ReturnBookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class ReturnBookController {
@@ -30,19 +27,17 @@ public class ReturnBookController {
         return "return-book";
     }
 
-    // Process the return book action
     @PostMapping("/return-book")
     public String returnBook(@RequestParam Long borrowId, Model model) {
-        // Return the book by borrowId
-        ReturnBook returnedBook = returnBookService.returnBook(borrowId);
+        StringBuilder fineMessage = new StringBuilder();
+        Integer fineAmount = returnBookService.returnBook(borrowId, fineMessage);
 
-        if (returnedBook != null) {
-            model.addAttribute("message", "Book returned successfully!");
+        if (fineAmount != null) {
+            model.addAttribute("fineAmount", fineAmount);
+            return "return-success";
         } else {
             model.addAttribute("message", "❌ Error: Borrow ID not found.");
+            return "redirect:/return-book";
         }
-
-        // Redirect to the librarian dashboard, whether the operation is successful or not
-        return "redirect:/librarian/dashboard";  // Redirecting to the dashboard
     }
 }

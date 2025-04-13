@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Book Returned</title>
-  <meta http-equiv="refresh" content="2;url=/index" /> <!-- ✅ Redirect to dashboard -->
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -27,14 +26,42 @@
     }
 
     p {
-      color: #555;
+      color: #333;
+      font-size: 18px;
+    }
+
+    .home-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .home-btn:hover {
+      background-color: #388e3c;
     }
   </style>
 </head>
 <body>
 <div class="message-box">
   <h2>✅ Book returned successfully!</h2>
-  <p>Redirecting to homepage...</p>
+
+  <!-- Show fine if it exists -->
+  <p th:if="${fineAmount > 0}">
+    💰 Fine: ₹<span th:text="${fineAmount}"></span>
+  </p>
+
+  <!-- Show "No fine" if fineAmount is 0 or null -->
+  <p th:if="${fineAmount == 0 or fineAmount == null}">
+    🆓 No fine to be paid!
+  </p>
+
+  <!-- Back to dashboard button -->
+  <a href="/librarian/dashboard" class="home-btn">Back to Home</a>
 </div>
 </body>
 </html>
