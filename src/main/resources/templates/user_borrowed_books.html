@@ -2,93 +2,149 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My Borrowed Books</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
         }
-        
-        h2 {
-            color: #333;
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.2);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px;
+        }
+
+        .top-bar {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
             text-align: center;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-button:hover {
+            opacity: 0.8;
+        }
+
+        .back-button i {
+            font-size: 20px;
+            color: #ffffff;
+        }
+
+        .content-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.75);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #333;
         }
 
         table {
             width: 100%;
-            margin: 20px 0;
             border-collapse: collapse;
+            margin-top: 20px;
+            background-color: transparent;
         }
 
         th, td {
-            padding: 12px;
+            padding: 15px;
             text-align: left;
-            border: 1px solid #ddd;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: #333;
         }
 
         th {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: rgba(0, 0, 0, 0.03);
+            font-weight: 600;
         }
 
         tr:hover {
-            background-color: #ddd;
+            background-color: rgba(255, 255, 255, 0.3);
         }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
+        .no-books {
             text-align: center;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .back-btn {
-            background-color: #007bff;
-            margin-top: 20px;
-            padding: 10px 20px;
-            text-decoration: none;
-            color: white;
-            font-size: 16px;
-            display: inline-block;
-            border-radius: 5px;
-        }
-
-        .back-btn:hover {
-            background-color: #0056b3;
+            color: #333;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 1.1em;
         }
     </style>
 </head>
 <body>
-    <h2>My Borrowed Books</h2>
+    <div class="top-bar">
+        <a th:href="@{/user/index}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+        <div class="page-title">My Borrowed Books</div>
+    </div>
 
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Borrow Date</th>
-            <th>Return Date</th>
-        </tr>
-        <tr th:each="borrow : ${borrows}">
-            <td th:text="${borrow.book.title}"></td>
-            <td th:text="${borrow.book.author}"></td>
-            <td th:text="${borrow.borrowDate}"></td>
-            <td th:text="${borrow.returnDate}"></td>
-        </tr>
-    </table>
+    <div class="overlay">
+        <div class="content-container">
+            <div th:if="${#lists.isEmpty(borrows)}" class="no-books">
+                You have no borrowed books at the moment.
+            </div>
 
-    <!-- Button to go back to the home page -->
-    <a href="/user/index" class="back-btn">Back to Home</a>
+            <table th:if="${not #lists.isEmpty(borrows)}">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Borrow Date</th>
+                        <th>Return Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="borrow : ${borrows}">
+                        <td th:text="${borrow.book.title}"></td>
+                        <td th:text="${borrow.book.author}"></td>
+                        <td th:text="${borrow.borrowDate}"></td>
+                        <td th:text="${borrow.returnDate}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

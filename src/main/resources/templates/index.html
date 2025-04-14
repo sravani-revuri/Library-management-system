@@ -1,83 +1,142 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Library Management System</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f9f9f9;
-      margin: 0;
-      padding: 0;
-    }
+    <title>User Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+        }
 
-    .container {
-      max-width: 800px;
-      margin: 80px auto;
-      padding: 40px;
-      background: #fff;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      border-radius: 12px;
-      text-align: center;
-    }
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.2);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px;
+        }
 
-    h1 {
-      font-size: 2.5rem;
-      color: #333;
-      margin-bottom: 20px;
-    }
+        .top-bar {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            text-align: center;
+        }
 
-    .links a {
-      display: inline-block;
-      margin: 10px 15px;
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      transition: background-color 0.3s ease;
-    }
+        .welcome-message {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+        }
 
-    .links a:hover {
-      background-color: #388E3C;
-    }
+        .dashboard-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
 
-    .auth-links {
-      margin-top: 30px;
-    }
+        .dashboard-card {
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
 
-    .auth-links a {
-      background-color: #2196F3;
-    }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
 
-    .auth-links a:hover {
-      background-color: #1976D2;
-    }
+        .dashboard-card i {
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: block;
+        }
 
-    .flash-message {
-      margin-bottom: 20px;
-      padding: 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      color: #155724;
-      background-color: #d4edda;
-      border: 1px solid #c3e6cb;
-    }
-  </style>
+        .dashboard-card span {
+            font-size: 18px;
+        }
+
+        /* Card colors */
+        .view-books {
+            background-color: rgba(124, 193, 66, 0.8);
+        }
+
+        .borrowed-books {
+            background-color: rgba(0, 188, 212, 0.8);
+        }
+
+        .logout {
+            background-color: rgba(255, 87, 34, 0.8);
+        }
+
+        /* Icon colors */
+        .view-books i { color: #7cc142; }
+        .borrowed-books i { color: #00bcd4; }
+        .logout i { color: #ff5722; }
+
+        .flash-message {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>📚 Welcome to the Library Management System</h1>
-
-    <!-- ✅ Flash message area -->
-    <div th:if="${message}" class="flash-message">
-      <span th:text="${message}"></span>
+    <div class="top-bar">
+        <div class="welcome-message">
+            Welcome, <span th:text="${user.name}">User</span>!
+        </div>
     </div>
-    
-    <div class="links">
-      <a href="/books">View Books</a>
-      <a href="/my-borrows">My Borrowed Books</a>
-    </div>    
-  </div>
+
+    <div class="overlay">
+        <div th:if="${message}" class="flash-message">
+            <span th:text="${message}"></span>
+        </div>
+
+        <div class="dashboard-grid">
+            <a th:href="@{/books}" class="dashboard-card view-books">
+                <i class="fas fa-book"></i>
+                <span>View Books</span>
+            </a>
+            <a th:href="@{/my-borrows}" class="dashboard-card borrowed-books">
+                <i class="fas fa-book-reader"></i>
+                <span>My Borrowed Books</span>
+            </a>
+            <a th:href="@{/user/logout}" class="dashboard-card logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
 </body>
 </html>

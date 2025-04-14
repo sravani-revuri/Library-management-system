@@ -1,43 +1,191 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Issue Book</title> <!-- Updated the title to "Issue Book" -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body style="background-color: #f8f9fa;">
+    <title>Issue Book</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+        }
 
-<div class="container mt-5 d-flex justify-content-center">
-    <div class="card shadow-lg" style="width: 100%;">
-        <div class="card-header bg-primary text-white" style="font-size: 1.5rem;">
-            <strong>📖 Issue a Book</strong>
-        </div>
-        <div class="card-body">
-            <form method="post" action="/librarian/issue-book">
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.2);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px;
+        }
+
+        .top-bar {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-button:hover {
+            opacity: 0.8;
+        }
+
+        .back-button i {
+            font-size: 20px;
+            color: #ffffff;
+        }
+
+        .content-container {
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.75);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: rgba(124, 193, 66, 0.8);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: rgba(124, 193, 66, 1);
+            transform: translateY(-2px);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .success-message {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #2e7d32;
+        }
+
+        .error-message {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a th:href="@{/librarian/dashboard}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+        <div class="page-title">Issue a Book</div>
+    </div>
+
+    <div class="overlay">
+        <div class="content-container">
+            <form th:action="@{/librarian/issue-book}" method="post">
                 <div class="form-group">
-                    <label><i class="fas fa-user"></i> User ID</label>
-                    <input type="number" name="userId" class="form-control" placeholder="Enter your user ID" required>
+                    <label for="userId">
+                        <i class="fas fa-user"></i> User ID
+                    </label>
+                    <input type="number" id="userId" name="userId" required placeholder="Enter user ID">
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-book"></i> Select Book</label>
-                    <select name="bookTitle" class="form-control" required>
-                        <option disabled selected value="">-- Choose a book --</option>
-                        <th:block th:each="book : ${books}">
-                            <option th:value="${book.title}" th:text="${book.title}">Book Title</option>
-                        </th:block>
+                    <label for="bookTitle">
+                        <i class="fas fa-book"></i> Select Book
+                    </label>
+                    <select id="bookTitle" name="bookTitle" required>
+                        <option value="" disabled selected>-- Choose a book --</option>
+                        <option th:each="book : ${books}" 
+                                th:value="${book.title}" 
+                                th:text="${book.title}">
+                            Book Title
+                        </option>
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-success">Issue Book</button>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    Issue Book
+                </button>
             </form>
 
-            <div class="mt-3 text-success" th:if="${message}" th:text="${message}"></div>
-            <div class="mt-3 text-danger" th:if="${error}" th:text="${error}"></div>
+            <div th:if="${message}" class="message success-message" th:text="${message}"></div>
+            <div th:if="${error}" class="message error-message" th:text="${error}"></div>
         </div>
     </div>
-</div>
-
-<!-- Font Awesome for icons -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

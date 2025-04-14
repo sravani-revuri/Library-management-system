@@ -1,5 +1,7 @@
 package com.example.LMS.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.LMS.model.User;
 import com.example.LMS.service.UserService;
-import java.util.Optional;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -75,7 +77,23 @@ public class AuthController {
 
     // User dashboard
     @GetMapping("/index")
-    public String showUserDashboard() {
+    public String showUserDashboard(HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("loggedInUserId");
+        if (userId == null) {
+            return "redirect:/user/login";
+        }
+        
+        Optional<User> user = userService.getUserById(userId);
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
+        }
+        
         return "index";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Clear all session attributes
+        return "redirect:/user/login"; // Redirect to login page
     }
 }

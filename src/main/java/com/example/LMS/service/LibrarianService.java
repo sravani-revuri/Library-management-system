@@ -1,12 +1,13 @@
 package com.example.LMS.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.LMS.model.Librarian;
 import com.example.LMS.repository.LibrarianRepository;
-import com.example.LMS.factory.UserFactory;
+import com.example.LMS.util.UserFactory;
 
 @Service
 public class LibrarianService {

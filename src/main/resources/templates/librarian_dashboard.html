@@ -3,46 +3,144 @@
 <head>
     <title>Librarian Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        .dashboard-container {
-            padding: 20px;
-            font-family: Arial, sans-serif;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;  /* Add this line */
+            color: #fff;
         }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.2);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px; /* Push content below fixed top bar */
+        }
+
+        .top-bar {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            text-align: center;
+        }
+
         .welcome-message {
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
         }
-        .dashboard-actions {
-            margin-top: 30px;
+
+        .dashboard-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
         }
-        .dashboard-actions a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-right: 15px;
-            background-color: #4CAF50;
-            color: white;
+
+        .dashboard-card {
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            color: #fff;
             text-decoration: none;
-            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        .dashboard-actions a:hover {
-            background-color: #45a049;
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
         }
+
+        .dashboard-card i {
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .dashboard-card span {
+            font-size: 18px;
+        }
+
+        /* Card colors */
+        .book {
+            background-color: rgba(244, 180, 0, 0.8);
+        }
+
+        .ebook {
+            background-color: rgba(124, 193, 66, 0.8);
+        }
+
+        .dvd {
+            background-color: rgba(0, 188, 212, 0.8);
+        }
+
+        .magazine {
+            background-color: rgba(233, 30, 99, 0.8);
+        }
+
+        .logout {
+            background-color: rgba(255, 87, 34, 0.8);
+        }
+
+        /* Icon colors */
+        .book i { color: #f4b400; }
+        .ebook i { color: #7cc142; }
+        .dvd i { color: #00bcd4; }
+        .magazine i { color: #e91e63; }
+        .logout i { color: #ff5722; }
     </style>
 </head>
 <body>
-<div class="dashboard-container">
-    <div class="welcome-message">
-        Welcome, <span th:text="${librarian.name}">Librarian</span>!
+    <div class="top-bar">
+        <div class="welcome-message">
+            Welcome, <span th:text="${librarian.name}">Varsha</span>!
+        </div>
     </div>
 
-    <div class="dashboard-actions">
-        <a href="/librarian/add-book">➕ Add New Book</a>
-        <a href="/books">📚 View All Books</a>
-        <a href="/librarian/issue-book">📖 Issue Book</a>
-        <a href="/return-book">📚 Return books</a>
-        <a href="/librarian/logout">🚪 Logout</a>
-
+    <div class="overlay">
+        <div class="dashboard-grid">
+            <a th:href="@{/librarian/add-book}" class="dashboard-card book">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add New Book</span>
+            </a>
+            <a th:href="@{/books}" class="dashboard-card ebook">
+                <i class="fas fa-book"></i>
+                <span>View All Books</span>
+            </a>
+            <a th:href="@{/librarian/issue-book}" class="dashboard-card dvd">
+                <i class="fas fa-book-reader"></i>
+                <span>Issue Book</span>
+            </a>
+            <a th:href="@{/return-book}" class="dashboard-card magazine">
+                <i class="fas fa-undo-alt"></i>
+                <span>Return Book</span>
+            </a>
+            <a th:href="@{/librarian/logout}" class="dashboard-card logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
     </div>
-</div>
 </body>
 </html>

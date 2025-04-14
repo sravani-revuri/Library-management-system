@@ -1,4 +1,4 @@
-package com.example.LMS.factory;
+package com.example.LMS.util;
 
 import com.example.LMS.model.Librarian;
 import com.example.LMS.model.User;

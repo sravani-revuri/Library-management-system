@@ -2,89 +2,147 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add Book</title>
-    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f9;
             margin: 0;
             padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.2);
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            padding-top: 120px;
+        }
+
+        .top-bar {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
         }
 
         .form-container {
-            background-color: #ffffff;
-            padding: 40px 50px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
             width: 100%;
-            max-width: 500px;
+            max-width: 400px;
+            color: #333;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            background-color: rgba(255, 255, 255, 0.85);
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
+        .form-group {
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #444;
+            font-weight: 500;
+            color: #333;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 10px 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
             font-size: 16px;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
         }
 
         button {
             width: 100%;
-            background-color: #4CAF50;
+            background-color: rgba(124, 193, 66, 0.8);
             color: white;
-            padding: 12px;
-            font-size: 16px;
+            padding: 15px;
+            font-size: 18px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            margin-top: 20px;
         }
 
         button:hover {
-            background-color: #388E3C;
+            background-color: rgba(124, 193, 66, 1);
+            transform: translateY(-2px);
         }
 
         .message {
             text-align: center;
             margin-top: 20px;
-            color: green;
-            font-weight: bold;
+            color: #fff;
+            font-weight: 500;
+            background-color: rgba(76, 175, 80, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
         }
+
+        .message:not(:empty) {
+            display: block;
+        }
+
+        /* Removing back-button related styles */
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <h1>Add New Book</h1>
+    <div class="top-bar">
+        <div class="page-title">Add New Book</div>
+    </div>
 
-        <form th:action="@{/librarian/add-book}" method="post">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
+    <div class="overlay">
+        <div class="form-container">
+            <form th:action="@{/librarian/add-book}" method="post">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
 
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author">
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
 
-            <button type="submit">Add Book</button>
-        </form>
+                <button type="submit">
+                    <i class="fas fa-plus-circle"></i>
+                    Add Book
+                </button>
+            </form>
 
-        <p class="message" th:text="${message}"></p>
+            <div class="message" th:text="${message}"></div>
+        </div>
     </div>
 </body>
 </html>

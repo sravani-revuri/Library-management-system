@@ -71,6 +71,25 @@
             color: red;
             margin-top: 10px;
         }
+
+        .home-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+
+        .home-button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -83,12 +102,9 @@
         </form>
         <p th:if="${error}" class="error-msg" th:text="${error}"></p>
         <div class="signup">
-            <p>Need an account? <a href="/user/register">Sign Up</a>
-            </p>
+            <p>Need an account? <a href="/user/register">Sign Up</a></p>
         </div>
+        <a href="/" class="home-button">Go to Home</a>
     </div>
-    
-
-
 </body>
 </html>

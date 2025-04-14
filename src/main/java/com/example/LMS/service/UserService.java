@@ -1,12 +1,13 @@
 package com.example.LMS.service;
 
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.LMS.model.User;
 import com.example.LMS.repository.UserRepository;
-import com.example.LMS.factory.UserFactory;
+import com.example.LMS.util.UserFactory;
 
 @Service
 public class UserService {
@@ -29,5 +30,9 @@ public class UserService {
 
     public boolean userExists(String email) {
         return userRepository.findByEmail(email).isPresent();
+    }
+
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 }
