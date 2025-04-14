@@ -28,8 +28,8 @@
 
         .top-bar {
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            padding: 20px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 24px 0;
             position: fixed;
             top: 0;
             left: 0;
@@ -38,16 +38,16 @@
         }
 
         .page-title {
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 36px;
+            font-weight: 700;
             color: #fff;
             margin: 0;
         }
 
         .back-button {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 24px;
+            left: 30px;
             color: #ffffff;
             text-decoration: none;
             font-size: 16px;
@@ -55,10 +55,7 @@
             align-items: center;
             gap: 8px;
             transition: opacity 0.3s ease;
-        }
-
-        .back-button:hover {
-            opacity: 0.8;
+            font-weight: 500;
         }
 
         .back-button i {
@@ -66,88 +63,85 @@
             color: #ffffff;
         }
 
+        .back-button:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
         .content-container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.75);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+            border: 1px solid rgba(255,255,255,0.5);
             color: #333;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #222;
+            text-align: center;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: transparent;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         th, td {
-            padding: 15px;
+            padding: 16px;
             text-align: left;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             color: #333;
         }
 
         th {
-            background-color: rgba(0, 0, 0, 0.03);
+            background-color: rgba(0, 0, 0, 0.05);
             font-weight: 600;
+            font-size: 18px;
         }
 
         tr:hover {
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.4);
         }
 
-        .borrow-btn {
-            background-color: rgba(124, 193, 66, 0.8);
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-        }
-
-        .borrow-btn:hover {
-            background-color: rgba(124, 193, 66, 1);
-            transform: translateY(-2px);
+        tr:last-child td {
+            border-bottom: none;
         }
     </style>
 </head>
 <body>
     <div class="top-bar">
-        <div class="page-title">Available Books</div>
+        <a th:href="@{/user/index}" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+        <div class="page-title">Library Collection</div>
     </div>
 
     <div class="overlay">
         <div class="content-container">
+            <div class="section-title">Available Books List</div>
             <table>
                 <thead>
                     <tr>
                         <th>Title</th>
                         <th>Author</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="book : ${books}">
                         <td th:text="${book.title}"></td>
                         <td th:text="${book.author}"></td>
-                        <td>
-                            <form th:action="@{/borrow}" method="post" style="margin: 0;">
-                                <input type="hidden" name="bookId" th:value="${book.id}" />
-                                <button type="submit" class="borrow-btn">
-                                    <i class="fas fa-book-reader"></i>
-                                    Borrow
-                                </button>
-                            </form>
-                        </td>
                     </tr>
                 </tbody>
             </table>
