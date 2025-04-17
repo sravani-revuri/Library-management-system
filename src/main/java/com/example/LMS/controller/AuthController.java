@@ -3,6 +3,7 @@ package com.example.LMS.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.LMS.model.User;
-import com.example.LMS.service.UserService;
+import com.example.LMS.service.IUserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -20,7 +21,8 @@ import jakarta.servlet.http.HttpSession;
 public class AuthController {
 
     @Autowired
-    private UserService userService;
+    @Qualifier("userServiceProxy")
+    private IUserService userService;
 
     // Landing page (root)
     @GetMapping("/")

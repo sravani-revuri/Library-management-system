@@ -104,15 +104,16 @@ public class LibrarianController {
                           HttpSession session) {
 
         if (session.getAttribute("loggedInLibrarian") == null) {
-            return "redirect:/librarian/login"; // Redirect to login if librarian is not logged in
+            return "redirect:/librarian/login";
         }
 
-        Book newBook = BookFactory.createNewBook(title, author); // Singleton pattern
+        Book newBook = BookFactory.createNewBook(title, author);
         bookRepository.save(newBook);
 
-        model.addAttribute("message", "Book added successfully!");
-        return "redirect:/librarian/dashboard"; // Redirect to librarian dashboard
+        model.addAttribute("title", title);
+        return "add-success"; // Redirect to add-success page with book title
     }
+
     // Logout librarian
     @GetMapping("/logout")
     public String logout(HttpSession session) {
