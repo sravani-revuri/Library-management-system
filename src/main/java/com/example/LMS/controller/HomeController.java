@@ -3,12 +3,13 @@ package com.example.LMS.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.LMS.model.User;
-import com.example.LMS.service.UserService;
+import com.example.LMS.service.IUserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -16,13 +17,19 @@ import jakarta.servlet.http.HttpSession;
 public class HomeController {
 
     @Autowired
-    private UserService userService;
+    @Qualifier("userServiceProxy")
+    private IUserService userService;
 
     @GetMapping("/")
-    public String showLandingPage(HttpSession session, Model model) {
+    public String showLandingPage() {
+        return "landing";
+    }
+
+    @GetMapping("/home")
+    public String showHomePage(HttpSession session, Model model) {
         Long userId = (Long) session.getAttribute("loggedInUserId");
         if (userId == null) {
-            return "landing";
+            return "redirect:/";
         }
         
         Optional<User> user = userService.getUserById(userId);
@@ -31,6 +38,6 @@ public class HomeController {
             return "index";
         }
         
-        return "landing";
+        return "redirect:/";
     }
 }

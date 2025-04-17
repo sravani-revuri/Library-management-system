@@ -1,84 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Library Management - Welcome</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-      color: #111;
-    }
+    <meta charset="UTF-8">
+    <title>Library Management - Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
 
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+        }
 
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg') no-repeat center center/cover;
-      opacity: 0.85;
-      z-index: -1;
-    }
+        .container {
+            background-color: rgba(255, 255, 255, 0.4);
+            padding: 50px 80px;
+            border-radius: 20px;
+            text-align: center;
+        }
 
-    .content-box {
-      background-color: rgba(255, 255, 255, 0.5); /* translucent white */
-      padding: 40px;
-      border-radius: 15px;
-      text-align: center;
-      color: #111;
-    }
+        h1 {
+    font-size: 2.8rem;
+    margin-bottom: 50px;
+    color: #ffffff; /* Changed from #00000000 to white */
+    background-color: rgba(0, 0, 0, 0.75);
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 12px;
+}
 
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 30px;
-      letter-spacing: 1px;
-    }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
 
-    .highlight {
-      background-color: rgba(0, 0, 0, 0.7); /* translucent black */
-      padding: 10px 20px;
-      border-radius: 12px;
-      color: white;
-      display: inline-block;
-    }
+        .btn {
+            padding: 14px 32px;
+            font-size: 1.2rem;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
 
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      margin: 10px;
-      background-color: #2196F3;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: background-color 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #1976D2;
-    }
-  </style>
+        .btn:hover {
+            background-color: #1976D2;
+        }
+    </style>
 </head>
 <body>
-  <div class="content-box">
-    <h1><span class="highlight">Welcome to Library Management System</span></h1>
-    <a href="/user/login" class="btn">User Login</a>
-    
-    <a href="/librarian/login" class="btn">Librarian Login</a>
-    
-  </div>
+    <div class="container">
+        <h1>Welcome to Library Management System</h1>
+        <div class="button-group">
+            <a href="/user/login" class="btn">User Login</a>
+            <a href="/librarian/login" class="btn">Librarian Login</a>
+        </div>
+    </div>
 </body>
 </html>

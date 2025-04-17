@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Book Added</title>
-  <meta http-equiv="refresh" content="2;url=/index" /> <!-- ✅ Redirect to dashboard -->
+  <meta http-equiv="refresh" content="2;url=/librarian/dashboard" />
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f9fa;
+      background-color: #f0fff0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -15,12 +15,11 @@
     }
 
     .message-box {
-      background: #ffffff;
+      background: #e6ffe6;
       padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       text-align: center;
-      border: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     h2 {
@@ -28,14 +27,31 @@
     }
 
     p {
-      color: #666;
+      color: #333;
+      font-size: 18px;
+    }
+
+    .home-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .home-btn:hover {
+      background-color: #388e3c;
     }
   </style>
 </head>
 <body>
 <div class="message-box">
   <h2>✅ Book "<span th:text="${title}"></span>" added successfully!</h2>
-  <p>Redirecting to homepage...</p>
+  <p>Redirecting to dashboard...</p>
+  <a href="/librarian/dashboard" class="home-btn">Back to Home</a>
 </div>
 </body>
 </html>
